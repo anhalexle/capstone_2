@@ -1,6 +1,5 @@
 const data = require('../model/data')
 
-
 const getAllData = async (io)=> {
     try {
         let _data = await data.find({})
