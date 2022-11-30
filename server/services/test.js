@@ -10,11 +10,9 @@
 
 // a[b]('Alex')
 
+const a = {
+	key: "value"
+}
 
-let a = [1,2,3,4,5]
-
-a = a.reduce((acc,data)=> {
-	acc.push(data)
-},[])
-
+a.key1 = "value2"
 console.log(a)
