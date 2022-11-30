@@ -56,7 +56,7 @@ const getData = async (type) => {
 const createData = async (parameters) => {
     try {
         const newData = await Data.create(parameters)
-        console.log({newData});
+        // console.log({newData});
     } catch(err) {
         console.log(err)
     }
@@ -116,7 +116,7 @@ const main = async () => {
     }
 }
 
-setInterval(main,5000)
+setInterval(main,1000)
 
 
 

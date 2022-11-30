@@ -8,10 +8,21 @@
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 </head>
 <body>
-    <h1>Vo day chua dcmmm</h1>
+    <h3>Voltage_1</h3>
+    <span class="value">0</span>
     <script>
-        var socket = io('http://localhost:3000/api/capstone_2');
-        socket.on("sendData",arg=>console.log(arg))
+        var socket = io();
+        const value = document.querySelector('span')
+        socket.on("sendData",arg=>{
+            // console.log(arg)
+            const volt_1_arr = arg.reduce((acc,data)=> {
+                if (data.name === "Voltage_1") 
+                    acc.push(data.value)
+                return acc
+            },[])
+            value.textContent = `${volt_1_arr[volt_1_arr.length-1]}`
+        })
+
     </script>
 </body>
 </html>
