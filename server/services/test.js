@@ -10,9 +10,4 @@
 
 // a[b]('Alex')
 
-const a = {
-	key: "value"
-}
 
-a.key1 = "value2"
-console.log(a)

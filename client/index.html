@@ -10,6 +10,7 @@
 <body>
     <h3>Voltage_1</h3>
     <span class="value">0</span>
+    <button class="chart">Chart</button>
     <script>
         var socket = io();
         const value = document.querySelector('span')
@@ -22,7 +23,10 @@
             },[])
             value.textContent = `${volt_1_arr[volt_1_arr.length-1]}`
         })
-
+        const chartBtn = document.querySelector('.chart')
+        chartBtn.addEventListener('click',()=> {
+            window.location.href = "http://localhost:3000/capstone_2/Voltage_1"
+        })
     </script>
 </body>
 </html>
