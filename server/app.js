@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+
 const dataRouter = require('./routes/data');
 const connectDB = require('./db/connect');
 const server = require('http').createServer(app)
@@ -17,6 +18,7 @@ app.use((req,res,next)=> {
     next();
 })
 app.use('/capstone_2',dataRouter)
+
 const port= 3000;
 const start = async () => {
     try {

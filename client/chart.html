@@ -8,11 +8,47 @@
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 </head>
 <body>
+    <button class="main">Main</button>
     <script>
-        var socket = io();
-        const value = document.querySelector('span')
-        socket.on("sendDataChart",arg=>{
-            console.log(arg)
+        let socket = io('/parameters',{forceNew:true});
+        const promise = new Promise((resolve, reject) => {
+            socket.on('connect',()=> {
+                socket.on('sendParameter',name => {
+                    if (name) {
+                        console.log('client',name)
+                        resolve(name);
+                    }
+                    else {
+                        reject('Can not get data')
+                    }
+                })
+            })
+        })
+        let socket1
+        promise.then(res=> {
+            socket.off()
+            socket.disconnect(true)
+            socket.destroy()
+            socket1 = io(`/${res}`,{forceNew:true});
+            socket1.on('connect',()=> {
+                socket1.on('sendDataChart',arg => {
+                    let [data] = arg
+                    console.log(data.name)
+                })
+            })
+        })
+        // let socket1 = io(`/${parameterName}`)
+        const btnMain = document.querySelector('.main')
+        btnMain.addEventListener("click",() => {
+            if (socket1) {
+                socket1.off()
+                socket1.disconnect(true)
+                socket1.destroy()
+            }
+            socket.off()
+            socket.disconnect(true)
+            socket.destroy()
+            window.location.href = "http://localhost:3000/capstone_2"
         })
     </script>
 </body>

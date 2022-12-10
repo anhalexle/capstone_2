@@ -8,25 +8,69 @@
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 </head>
 <body>
-    <h3>Voltage_1</h3>
-    <span class="value">0</span>
-    <button class="chart">Chart</button>
+    <div class="Voltage_1">
+        <h3 class="name">Voltage_1</h3>
+        <span class="value">0</span>
+        <button class="chart">Chart</button>
+    </div>
+    <div class="Voltage_2">
+        <h3 class="name">Voltage_2</h3>
+        <span class="value">0</span>
+        <button class="chart">Chart</button>
+    </div>
+    <div class="Voltage_3">
+        <h3 class="name">Voltage_3</h3>
+        <span class="value">0</span>
+        <button class="chart">Chart</button>
+    </div>
     <script>
-        var socket = io();
+        class parametersModel {
+            constructor(arg,name) {
+                this.arg = arg;
+                this.name = name;
+            }
+            getLastData() {
+                let arr =  this.arg.reduce((acc,data) => {
+                    if (data.name === this.name) {
+                        acc.push(data.value)
+                    }
+                    return acc
+                },[])
+                return arr[arr.length-1];
+            }
+        }
+        const nameArr = ['Voltage_1', 'Voltage_2', 'Voltage_3'];
+    </script>
+    <script>
+        var socket = io({forceNew:true});
         const value = document.querySelector('span')
-        socket.on("sendData",arg=>{
-            // console.log(arg)
-            const volt_1_arr = arg.reduce((acc,data)=> {
-                if (data.name === "Voltage_1") 
-                    acc.push(data.value)
-                return acc
-            },[])
-            value.textContent = `${volt_1_arr[volt_1_arr.length-1]}`
+        let socketContainer;
+        socket.on("connect",()=> {
+            socket.on("sendData",arg=>{
+                socketContainer = arg;
+            })
+            socket.removeAllListeners("sendDataChart")
         })
-        const chartBtn = document.querySelector('.chart')
-        chartBtn.addEventListener('click',()=> {
-            window.location.href = "http://localhost:3000/capstone_2/Voltage_1"
+        let collectData = setInterval(() => {
+            if(socketContainer) {
+                for (let value of nameArr) {
+                    const valueContainer = new parametersModel(socketContainer, value)
+                    const valueQuery = document.querySelector(`.${valueContainer.name}`)
+                    valueQuery.querySelector('.value').textContent = `${valueContainer.getLastData()}`;
+                }
+        }
+        const allChartBtn = document.querySelectorAll('.chart');
+        allChartBtn.forEach(chartBtn => {
+            chartBtn.addEventListener('click',() => {
+                clearInterval(collectData);
+                nameArr.forEach(value => {
+                    if (chartBtn.parentElement.querySelector('.name').textContent===value) {
+                        window.location.href = `http://localhost:3000/capstone_2/${value}`
+                    }              
+                })
+            })
         })
+       },100)
     </script>
 </body>
 </html>
