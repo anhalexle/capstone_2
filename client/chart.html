@@ -10,44 +10,18 @@
 <body>
     <button class="main">Main</button>
     <script>
-        let socket = io('/parameters',{forceNew:true});
-        const promise = new Promise((resolve, reject) => {
-            socket.on('connect',()=> {
-                socket.on('sendParameter',name => {
-                    if (name) {
-                        console.log('client',name)
-                        resolve(name);
-                    }
-                    else {
-                        reject('Can not get data')
-                    }
-                })
-            })
+        let socket = io('/parameter',{'forceNew':true})
+        socket.on('connect',()=> {
+            let url = window.location.href
+            let parameterName = url.slice(url.lastIndexOf('/')+1)
+            socket.volatile.emit('parameterName', parameterName);
+            socket.on(`sendDataClient`,arg=> console.log(arg))
         })
-        let socket1
-        promise.then(res=> {
-            socket.off()
+        socket.on('disconnect',()=> {
             socket.disconnect(true)
-            socket.destroy()
-            socket1 = io(`/${res}`,{forceNew:true});
-            socket1.on('connect',()=> {
-                socket1.on('sendDataChart',arg => {
-                    let [data] = arg
-                    console.log(data.name)
-                })
-            })
         })
-        // let socket1 = io(`/${parameterName}`)
         const btnMain = document.querySelector('.main')
         btnMain.addEventListener("click",() => {
-            if (socket1) {
-                socket1.off()
-                socket1.disconnect(true)
-                socket1.destroy()
-            }
-            socket.off()
-            socket.disconnect(true)
-            socket.destroy()
             window.location.href = "http://localhost:3000/capstone_2"
         })
     </script>

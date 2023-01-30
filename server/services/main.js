@@ -1,5 +1,6 @@
 require('dotenv').config()
 const ModbusRTU = require("modbus-serial");
+const  {io} = require('socket.io-client');
 const client = new ModbusRTU();
 const Data = require('../model/data')
 const connect_to_DB = require('./connect_to_DB')
@@ -105,6 +106,35 @@ const collectData = async (type) => {
 }
 
 
+const socket = io('http://localhost:3000');
+// console.log(socket)
+socket.on('connect', () => {
+    setInterval(async ()=> {
+        let _data = await Data.find({})
+        if (_data) {
+            // console.log(_data)
+            socket.volatile.emit('sendAllData',_data)
+        }
+    },100)
+})
+const socket1 = io('http://localhost:3000/parameter',{'forceNew':true});
+socket1.on('connect',()=> {
+    socket1.on('sendDataName',name=>{
+        let collectData = setInterval(async()=> {
+            let filterData =await Data.find({name:name})
+            if (filterData) {
+                socket1.volatile.emit(`sendData`,filterData)
+            }
+        },1000)
+    })
+    socket1.on('disconnect',()=> {
+        // clearInterval(collectData);
+        socket1.connect();
+    })
+})
+socket.on('disconnect',()=> {
+    socket.connect()
+})
 const main = async () => {
     try {
         for (let type of dataType) {

@@ -10,11 +10,11 @@
 
 // a[b]('Alex')
 
-const obj = {
-    test2: () => console.log('hello 2'),
-    test: () => {console.log('hello')}
-}
+// const obj = {
+//     test2: () => console.log('hello 2'),
+//     test: () => {console.log('hello')}
+// }
 
-const {test2} = obj
+// const {test2} = obj
 
-test2()
+// test2()

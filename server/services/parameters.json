@@ -24,19 +24,19 @@
         "address": 170
     },
     {
-        "name": "Line V1_2",
+        "name": "Line_V1_2",
         "type": "volt",
         "value": 0,
         "address": 172
     },
     {
-        "name": "Line V2_3",
+        "name": "Line_V2_3",
         "type": "volt",
         "value": 0,
         "address": 174
     },
     {
-        "name": "Line V3_1",
+        "name": "Line_V3_1",
         "type": "volt",
         "value": 0,
         "address": 176

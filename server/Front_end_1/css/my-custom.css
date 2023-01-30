@@ -1,0 +1,33 @@
+.value{
+    margin-bottom: 0 !important;
+    margin-right: 1rem !important;
+    font-weight: 700 !important;
+    color: #149228 !important;
+    font-size: 25px !important;
+  }
+
+  .col-xl-3-current{
+    position: relative;
+    width: 100%;
+    padding-right: 0.75rem;
+    padding-left: 0.75rem;
+    background-color: aqua;
+  }
+
+  .col-xl-3-current{
+    flex: 0 0 25%;
+    max-width: 25%;
+  
+  }
+
+  .row-current {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-right: -0.75rem;
+    margin-left: -0.75rem;
+  }
+  .min_with {
+    min-width: 230px;
+
+  }

@@ -5,11 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Capstone 2</title>
+    <link rel="stylesheet" href="/client/styles.css">
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
 </head>
 <body>
     <div class="Voltage_1">
-        <h3 class="name">Voltage_1</h3>
+        <h3 class="name" style="color: red;">Voltage_1</h3>
         <span class="value">0</span>
         <button class="chart">Chart</button>
     </div>
@@ -42,14 +43,13 @@
         const nameArr = ['Voltage_1', 'Voltage_2', 'Voltage_3'];
     </script>
     <script>
-        var socket = io({forceNew:true});
-        const value = document.querySelector('span')
+        const socket = io();
+
         let socketContainer;
         socket.on("connect",()=> {
-            socket.on("sendData",arg=>{
+            socket.on("sendAllDataClient",arg=>{
                 socketContainer = arg;
-            })
-            socket.removeAllListeners("sendDataChart")
+            })  
         })
         let collectData = setInterval(() => {
             if(socketContainer) {
